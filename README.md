@@ -419,25 +419,25 @@ for k in range(1, 21):
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    STANDARD WORKFLOW                         │
+│                    STANDARD WORKFLOW                        │
 ├──────────┬──────────────────────────────────────────────────┤
-│ Step 1   │  Data Preprocessing                            │
+│ Step 1   │  Data Preprocessing                              │
 │          │ • Handling missing values                        │
 │          │ • Encoding categorical variables                 │
 │          │ • Feature scaling                                │
 ├──────────┼──────────────────────────────────────────────────┤
-│ Step 2   │ Train-Test Split                               │
+│ Step 2   │ Train-Test Split                                 │
 │          │ • 80/20 split                                    │
 ├──────────┼──────────────────────────────────────────────────┤
-│ Step 3   │  Model Training                                │
+│ Step 3   │  Model Training                                  │
 │          │ • Fit model on training data                     │
 ├──────────┼──────────────────────────────────────────────────┤
-│ Step 4   │  Hyperparameter Tuning                         │
+│ Step 4   │  Hyperparameter Tuning                           │
 │          │ • K selection (KNN)                              │
 │          │ • Kernel selection (SVM)                         │
 │          │ • Degree selection                               │
 ├──────────┼──────────────────────────────────────────────────┤
-│ Step 5   │  Performance Evaluation                         │
+│ Step 5   │  Performance Evaluation                          │
 │          │ • Regression → R², MSE, MAE                      │
 │          │ • Classification → Accuracy, Confusion Matrix    │
 │          │ • Visualization                                  │
