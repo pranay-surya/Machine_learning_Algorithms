@@ -22,7 +22,8 @@ This repository serves as a practical guide for understanding the mathematical f
 | • Multiple Linear Regression      | • Support Vector Machine (SVM)        |
 | • Polynomial Regression           | • Naive Bayes                         |
 | • Support Vector Regression (SVR) | • K-Nearest Neighbors (KNN)           |
-| • KNN Regression                  |                                       |
+| • KNN Regression                  | •  Decision Tree Classification       |
+| •  Decision Tree Regression       |                                       |
 
 | Type           | Algorithm                  | Key Idea                        |
 | :------------- | :------------------------- | :------------------------------ |
@@ -31,10 +32,12 @@ This repository serves as a practical guide for understanding the mathematical f
 | Regression     | Polynomial Regression      | Curved best-fit line            |
 | Regression     | SVR                        | Fit within error margin         |
 | Regression     | KNN Regression             | Average of nearest neighbors    |
+|Regression	     | Decision Tree Reg.         |	Data splitting based on MSE     |
 | Classification | Logistic Regression        | Probability of class membership |
 | Classification | SVM                        | Maximum margin hyperplane       |
 | Classification | Naive Bayes                | Bayes' Theorem + independence   |
 | Classification | KNN Classification         | Majority vote of neighbors      |
+| Classification | Decision Tree Class.       | Data splitting based on Gini/Entropy |
 
 ---
 
@@ -147,6 +150,16 @@ y
 * Points OUTSIDE the tube = Support Vectors (they define the model)
 * Points INSIDE the tube = No penalty
 
+```
+y
+│      / -----------------  Upper Boundary
+│     /   •    •   /
+│    /───────────/ <--------- Regression Line
+│   /   •     • /
+│  / -----------------      Lower Boundary (Tube width = 2ε)
+└────────────────────────── x
+```
+
 #### ✅ When to Use
 
 * Data has **outliers** (SVR is robust to them)
@@ -169,13 +182,22 @@ y
 
 ### 5️⃣ K-Nearest Neighbors (KNN) Regression
 
-> Predicts a value based on the **average (or weighted average)** of the `k` most similar neighboring data points.
+- Predicts a value based on the **average (or weighted average)** of the `k` most similar neighboring data points.
 
 #### Core Concept
 
 * Prediction = Average of neighbor values
   = (y₁ + y₂ + y₃) / 3
 
+```
+y
+│         • (Actual)
+│        / 
+│  •───○─────•  <-- Local average (Prediction)
+│     /  k=3
+│    • 
+└────────────────────────── x
+```
 #### ✅ When to Use
 
 * **Non-linear** relationships
@@ -193,8 +215,37 @@ y
 * Sensitive to **irrelevant features**
 
 ---
+ 
+### 6️⃣ Decision Tree Regression
+- Predicts a continuous value by splitting the dataset into smaller subsets (leaves) based on feature thresholds, forming a tree-like structure of decisions.
 
-## Classification Models
+### Core Concept
+* Recursive Partitioning: The algorithm splits data where it reduces the Mean Squared Error (MSE) the most.
+* Leaf Nodes: The final prediction is the average value of all training points that fall into that specific leaf.
+```
+y
+│               _______ (Avg of Region 3)
+│              |
+│       _______|        (Avg of Region 2)
+│      |
+│______|                (Avg of Region 1)
+└──────┬───────┬─────────── x
+    Split 1  Split 2
+```
+
+#### ✅ When to Use
+* Non-linear and complex datasets
+* When you need a model that handles both numerical and categorical data without much preprocessing
+* No feature scaling required
+
+#### ⚠️ Watch Out For
+* High Risk of Overfitting: A tree can grow deep enough to memorize every data point.
+* Instability: Small changes in data can lead to a completely different tree structure.
+* Solution: Limit max_depth or use "Pruning."
+
+---
+
+# Classification Models
 
 - **Goal:** Predict a **discrete category/class** (e.g., spam/not spam, disease/healthy, yes/no).
 
@@ -415,6 +466,32 @@ for k in range(1, 21):
 
 ---
 
+### 5️⃣ Decision Tree Classification
+- Breaks down a dataset into smaller and smaller subsets while at the same time an associated decision tree is incrementally developed.
+
+#### Core Concept
+* Splitting Criteria: Uses Gini Impurity or Entropy (Information Gain) to determine the best feature to split on at each node.
+* Leaf Nodes: The final prediction is the majority class of the samples in that leaf.
+
+### Decision Logic Example
+```
+Is Age > 30?
+├── Yes: Is Income > $50k?
+│   ├── Yes: Class A (Buyer)
+│   └── No:  Class B (Non-Buyer)
+└── No: Class B (Non-Buyer)
+```
+
+#### ✅ When to Use
+* Clear, rule-based decision making
+* Non-linear relationships between features
+* When interpretability is critical (you can see exactly why a choice was made)
+
+#### ⚠️ Limitations
+* Can create very complex trees that do not generalize well (overfitting)
+* Biased toward features with many levels/categories
+
+---
 #  Standard Workflow Used in All Algorithms
 
 ```
